@@ -20,7 +20,7 @@ def main():
     mp = ROOT / "dist" / "manifest.json"
     manifest = json.loads(mp.read_text()) if mp.exists() else {}
     q = {}
-    for line in (ROOT / "work" / "islamweb_queue.txt").read_text().split("\n"):
+    for line in "\n".join(f.read_text() for f in sorted((ROOT / "work").glob("islamweb_queue*.txt"))).split("\n"):
         if line.strip():
             bk, name = line.split()
             q[int(bk)] = name
@@ -35,7 +35,14 @@ def main():
         if b["source"] == "islamweb":
             bk = int(b["source_ref"].split("=")[1])
             db = SRC / f"{q.get(bk, '')}.db"
-            if db.exists():
+            parts = sorted(SRC.glob(f"{q.get(bk, '')}_p[0-9]*.db"))
+            if parts:
+                tot = sqlite3.connect(parts[0]).execute("SELECT total_pages FROM scrape_progress").fetchone()[0]
+                done_pages = sum(sqlite3.connect(x).execute("SELECT COUNT(*) FROM entries").fetchone()[0] for x in parts)
+                frac, note = min(done_pages / max(tot, 1), 1), f"scraping {done_pages}/{tot} pages ({len(parts)} workers)"
+                if frac >= 0.995:
+                    frac, note = 1.0, "scraped"
+            elif db.exists():
                 try:
                     last, tot = sqlite3.connect(db).execute("SELECT last_page,total_pages FROM scrape_progress").fetchone()
                     frac, note = last / max(tot, 1), f"scraping {last}/{tot} pages"

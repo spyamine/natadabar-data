@@ -19,16 +19,49 @@ SRC = Path.home() / "Developer" / "islamweb-scraper" / "output"
 
 def queue():
     out = {}
-    for line in (ROOT / "work" / "islamweb_queue.txt").read_text().split("\n"):
+    for line in "\n".join(f.read_text() for f in sorted((ROOT / "work").glob("islamweb_queue*.txt"))).split("\n"):
         if line.strip():
             bk, name = line.split()
             out[int(bk)] = name
     return out
 
 
+def open_source(name):
+    """The scraper DB for `name`; if range-worker parts (`name_p1.db` ...) exist, merge them (dedupe by page)."""
+    parts = sorted(SRC.glob(f"{name}_p[0-9]*.db"))
+    if not parts:
+        return sqlite3.connect(SRC / f"{name}.db")
+    mem = sqlite3.connect(":memory:")
+    mem.executescript("""
+        CREATE TABLE books (id INTEGER PRIMARY KEY, book_number INTEGER, name TEXT);
+        CREATE TABLE entries (id INTEGER PRIMARY KEY AUTOINCREMENT, entry_number INTEGER, book_id INTEGER,
+            page_number INTEGER UNIQUE, text_clean TEXT, text_vocalized TEXT);
+        CREATE TABLE verse_references (entry_id INTEGER, surah_number INTEGER, ayah_number INTEGER);
+    """)
+    base = SRC / f"{name}.db"
+    for path in parts + ([base] if base.exists() else []):
+        c = sqlite3.connect(path)
+        try:
+            mem.executemany("INSERT OR IGNORE INTO books VALUES (?,?,?)", c.execute("SELECT id, book_number, name FROM books"))
+            for eid, num, bid, page, tc, tv in c.execute(
+                "SELECT id, entry_number, book_id, page_number, text_clean, text_vocalized FROM entries ORDER BY page_number"
+            ):
+                cur = mem.execute("INSERT OR IGNORE INTO entries(entry_number,book_id,page_number,text_clean,text_vocalized) "
+                                  "VALUES (?,?,?,?,?)", (num, bid, page, tc, tv))
+                if cur.rowcount:
+                    mem.executemany("INSERT INTO verse_references VALUES (?,?,?)",
+                                    [(cur.lastrowid, a, b) for a, b in c.execute(
+                                        "SELECT surah_number, ayah_number FROM verse_references WHERE entry_id=?", (eid,))])
+        except sqlite3.Error as e:
+            print("skip part", path.name, e)
+        c.close()
+    mem.commit()
+    return mem
+
+
 def build(bk_no, book):
     name = queue()[bk_no]
-    src = sqlite3.connect(SRC / f"{name}.db")
+    src = open_source(name)
     path = DBS / f"{book['id']}.db"
     conn = create_db(path)
     conn.execute(

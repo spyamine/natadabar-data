@@ -122,6 +122,33 @@ def parse(body, heading_re, heading_filter=None, verse_re=None):
     return events
 
 
+LEVELS = [re.compile(r"^\(?\s*(كتاب|حرف)"), re.compile(r"^\(?\s*(باب|الباب|القسم|الجزء|المقصد)")]
+
+
+def fold_headings(events, max_sections=250):
+    """Books with thousands of headings (roots, sub-topics): keep only chapter-level headings
+    (كتاب/حرف, else باب/القسم) as sections; demote the others to a headword on the next entry."""
+    heads = [e for e in events if e[0] == "heading"]
+    if len(heads) <= max_sections:
+        return events
+    keep = None
+    for rx in LEVELS:
+        n = sum(1 for e in heads if rx.match(e[1]))
+        if 3 <= n <= 200:
+            keep = rx
+            break
+    out, first = [], True
+    for e in events:
+        if e[0] != "heading":
+            out.append(e)
+        elif keep and (keep.match(e[1]) or (first and INTRO_RE.match(e[1]))):
+            out.append(e)
+        else:
+            out.append(("headword", re.sub(r"^\(\s*|\s*\)$", "", e[1]).strip()))
+        first = False
+    return out
+
+
 def build(book, rows_cat):
     text = fetch(book)
     meta, edition = header(text)
@@ -140,6 +167,7 @@ def build(book, rows_cat):
     vre = re.compile(cfg["verse_re"]) if "verse_re" in cfg else None
     hre = re.compile(cfg["headword_re"]) if "headword_re" in cfg else None
     events = parse(body, heading_re, hf, vre)
+    events = fold_headings(events)
     no_group = cfg.get("no_group", False)
     n_heads = sum(1 for e in events if e[0] == "para" and (COLON_HEAD.match(e[1]) or ARABIC_WORD.match(e[1])))
     is_dict = book["category"] == "dictionary" and n_heads >= 100
@@ -153,6 +181,7 @@ def build(book, rows_cat):
     sections, ordinal, seq, sec_id, buf, buf_pos, eid = 0, 0, 0, None, [], (0, 0), 0
     sec_intro_possible = True
     cur_verse = None
+    pending_head = None
 
     def new_section(title, kind):
         nonlocal sections, ordinal, sec_id, seq
@@ -182,6 +211,10 @@ def build(book, rows_cat):
             flush_buf()
             cur_verse = (ev[1], ev[2])
             continue
+        if ev[0] == "headword":
+            flush_buf()
+            pending_head = ev[1]
+            continue
         if ev[0] == "heading":
             kind = "intro" if (sec_intro_possible and INTRO_RE.match(ev[1])) else "chapter"
             if kind == "chapter":
@@ -204,6 +237,8 @@ def build(book, rows_cat):
             continue
         if not buf:
             buf_pos = (part, page)
+            if pending_head:
+                buf_head[0], pending_head = pending_head[:60], None
             if hre and (hm := hre.match(txt)):
                 buf_head[0] = hm.group(1)
         buf.append(txt)

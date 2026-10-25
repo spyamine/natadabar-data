@@ -102,6 +102,60 @@ DICT_OPENITI = [
     ("1205MurtadaZabidi.TajCarus", "Taj al-Arus", 3, "Very large"),
     ("0911Suyuti.MuzhirFiCulumLugha", "Al-Muzhir fi Ulum al-Lugha", 3, "Language sciences"),
 ]
+# kind: quran_vocab | hadith_vocab | lexicon | terminology   (tuple: OpenITI book URI, English title, tier, note, kind)
+DICT_EXTRA = [
+    # Quran vocabulary
+    ("0817MajdDinFiruzabadi.BasairDhawiTamyiz", "Basair Dhawi al-Tamyiz (Firuzabadi)", 1, "Quran vocabulary by surah, with etymology", "quran_vocab"),
+    ("0745AbuHayyanGharnati.TuhfatArib", "Tuhfat al-Arib bi ma fi al-Quran min al-Gharib", 1, "Short Quran vocabulary", "quran_vocab"),
+    ("0815IbnMuhammadShihabDinIbnHaim.TibyanFiTafsirGharib", "Al-Tibyan fi Tafsir Gharib al-Quran (Ibn al-Haim)", 1, "", "quran_vocab"),
+    ("0879IbnQutlubugha.GharibQuran", "Gharib al-Quran (Ibn Qutlubugha)", 1, "", "quran_vocab"),
+    ("1387MuhammadFuadCabdBaqi.MucjamAlfazQuranMufahras", "Al-Mujam al-Mufahras li Alfaz al-Quran (Fuad Abd al-Baqi)", 1, "Concordance: every Quranic word with its verses", "quran_vocab"),
+    ("0395AbuHilalCaskari.WujuhWaNazair", "Al-Wujuh wa al-Nazair (Askari)", 1, "Quranic polysemy", "quran_vocab"),
+    ("0330IbnCuzayzSijistani.Ishtiqaq", "Ishtiqaq Asma Nataqa biha al-Quran (Sijistani)", 2, "", "quran_vocab"),
+    ("0122ZaydIbnCali.TafsirGharibQuran", "Tafsir Gharib al-Quran (Zayd ibn Ali)", 2, "", "quran_vocab"),
+    ("0068CabdAllahIbnCabbas.GharibQuran", "Masail Nafi ibn al-Azraq (Ibn Abbas)", 2, "Quran words in pre-Islamic poetry", "quran_vocab"),
+    ("1349CabdHamidFarahi.MufradatQuran", "Mufradat al-Quran (Farahi)", 2, "", "quran_vocab"),
+    ("1085FakhrDinTurayhi.TafsirGharibQuran", "Tafsir Gharib al-Quran (Turayhi)", 3, "", "quran_vocab"),
+    ("0207IbnZiyadFarra.LughatQuran", "Lughat al-Quran (Farra)", 3, "Dialect forms in the Quran", "quran_vocab"),
+    ("0488IbnFutuhHumaydi.TafsirGharib", "Tafsir Gharib ma fi al-Sahihayn (Humaydi)", 2, "", "hadith_vocab"),
+    # Gharib al-Hadith (Quran + hadith)
+    ("0401AbuCubaydHarawi.Gharibayn", "Al-Gharibayn fi al-Quran wa al-Hadith (Harawi)", 1, "Quran and hadith vocabulary", "hadith_vocab"),
+    ("0581AbuMusaMadini.MajmucMughith", "Majmu al-Mughith (Abu Musa al-Madini)", 1, "Quran and hadith vocabulary", "hadith_vocab"),
+    ("0538JarAllahZamakhshari.FaiqFiGharib", "Al-Faiq fi Gharib al-Hadith (Zamakhshari)", 1, "", "hadith_vocab"),
+    ("0986IbnCaliFattani.MajmacBihar", "Majma Bihar al-Anwar", 1, "", "hadith_vocab"),
+    ("0544QadiCiyad.MashariqAnwar", "Mashariq al-Anwar (Qadi Iyad)", 2, "Rare words in Sahihayn and Muwatta", "hadith_vocab"),
+    ("0597IbnJawzi.GharibHadith", "Gharib al-Hadith (Ibn al-Jawzi)", 2, "", "hadith_vocab"),
+    ("0276IbnQutaybaDinawari.GharibHadith", "Gharib al-Hadith (Ibn Qutayba)", 2, "", "hadith_vocab"),
+    ("0302QasimCawfi.DalailFiGharibHadith", "Al-Dalail fi Gharib al-Hadith", 3, "", "hadith_vocab"),
+    ("0569AbuIshaqIbnQurqul.MatalicAnwar", "Matalic al-Anwar (Ibn Qurqul)", 3, "", "hadith_vocab"),
+    # General lexicons
+    ("0170KhalilFarahidi.Cayn", "Kitab al-Ayn (Khalil)", 2, "First Arabic dictionary", "lexicon"),
+    ("0321IbnDuraydAzdi.JamharatLugha", "Jamharat al-Lugha (Ibn Durayd)", 2, "", "lexicon"),
+    ("0395IbnFarisQazwini.MujmalLugha", "Mujmal al-Lugha (Ibn Faris)", 2, "", "lexicon"),
+    ("0385SahibIbnCabbadTalqani.MuhitFiLugha", "Al-Muhit fi al-Lugha (Sahib ibn Abbad)", 2, "", "lexicon"),
+    ("0458IbnSidaMursi.MuhkamWaMuhit", "Al-Muhkam wa al-Muhit al-Azam (Ibn Sida)", 3, "", "lexicon"),
+    ("0458IbnSidaMursi.Mukhassas", "Al-Mukhassas (Ibn Sida)", 3, "Thematic dictionary", "lexicon"),
+    ("0650IbnMuhammadRadiDinSaghani.Takmila", "Al-Takmila wa al-Dhayl wa al-Sila (Saghani)", 3, "", "lexicon"),
+    ("0350IbnIbrahimFarabi.MucjamDiwanAdab", "Mujam Diwan al-Adab (Farabi)", 3, "", "lexicon"),
+    ("0206AbuCamrShaybani.Jim", "Kitab al-Jim (Shaybani)", 3, "", "lexicon"),
+    ("0328AbuBakrIbnAnbari.ZahirFiMacani", "Al-Zahir fi Maani Kalimat al-Nas (Ibn al-Anbari)", 3, "", "lexicon"),
+    ("0610Mutarrizi.MughribFiTartibMucrib", "Al-Mughrib fi Tartib al-Murib (Mutarrizi)", 2, "Fiqh vocabulary", "terminology"),
+    ("1324FuadAframBustani.QamusCarabiFarsi", "Al-Munjid al-Abjadi (Bustani)", 3, "Modern", "lexicon"),
+    ("0244IbnSikkit.IslahMantiq", "Islah al-Mantiq (Ibn al-Sikkit)", 3, "", "lexicon"),
+    ("0244IbnSikkit.Alfaz", "Kitab al-Alfaz (Ibn al-Sikkit)", 3, "Oldest thesaurus", "lexicon"),
+    ("0321IbnDuraydAzdi.Ishtiqaq", "Al-Ishtiqaq (Ibn Durayd)", 3, "", "lexicon"),
+    ("0328AbuBakrIbnAnbari.Addad", "Al-Addad (Ibn al-Anbari)", 3, "Words with opposite meanings", "lexicon"),
+    ("0395AbuHilalCaskari.FuruqLughawiyya", "Al-Furuq al-Lughawiyya (Askari)", 3, "Synonym distinctions", "lexicon"),
+    ("0429AbuMansurThacalibi.FiqhLugha", "Fiqh al-Lugha (Thaalibi)", 3, "", "lexicon"),
+    # Terminology
+    ("0816IbnMuhammadSharifJurjani.Tacrifat", "Al-Tarifat (Jurjani)", 1, "Definitions of technical terms", "terminology"),
+    ("1094IbnMusaKaffawi.Kulliyat", "Al-Kulliyat (Kaffawi)", 2, "Terms and linguistic distinctions", "terminology"),
+    ("1031CabdRaufMunawi.Tawqif", "Al-Tawqif ala Muhimmat al-Tarif (Munawi)", 2, "", "terminology"),
+    ("0676Nawawi.TahrirAlfaz", "Tahrir Alfaz al-Tanbih (Nawawi)", 3, "Fiqh vocabulary", "terminology"),
+    ("0370AbuMansurAzhari.ZahirFiGharibAlfazShafici", "Al-Zahir fi Gharib Alfaz al-Shafii (Azhari)", 3, "", "terminology"),
+    ("0633BattalRukabi.NazmMustaczab", "Al-Nazm al-Mustazhab (Battal)", 3, "Fiqh vocabulary", "terminology"),
+]
+
 DICT_GAPS = [
     "Al-Ayn (Farahidi), Jamharat al-Lugha (Ibn Durayd), Al-Muhkam (Ibn Sida): not found in sources checked",
     "Gharib al-Quran books (Ibn Qutayba, Sijistani)",
@@ -194,6 +248,15 @@ def main():
         row = pick_version(rows, book_uri)
         if row:
             catalog.append(oi_entry(row, "dictionary", en, tier, note))
+
+    for book_uri, en, tier, note, kind in DICT_EXTRA:
+        row = pick_version(rows, book_uri)
+        if not row:
+            print("missing in OpenITI:", book_uri)
+            continue
+        e = oi_entry(row, "dictionary", en, tier, note)
+        e["kind"] = kind
+        catalog.append(e)
 
     (ROOT / "catalog").mkdir(exist_ok=True)
     (ROOT / "catalog" / "books.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=1), encoding="utf8")
