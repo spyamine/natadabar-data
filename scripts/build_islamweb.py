@@ -15,6 +15,7 @@ from pathlib import Path
 from common import DBS, ROOT, create_db, finalize, normalize, update_manifest
 from tafsir_index import build_index
 
+MIN_INDEX_COVERAGE = 3500  # of 6,236 ayahs
 SRC = Path.home() / "Developer" / "islamweb-scraper" / "output"
 
 
@@ -112,6 +113,11 @@ def build(bk_no, book):
         pages = [(nid, title, first, refs_by_entry.get(eid, [])) for nid, title, first, eid in page_rows]
         index_stats = build_index(pages, conn)
         print("  ayah index:", index_stats)
+        if index_stats["ayahs_covered"] < MIN_INDEX_COVERAGE:
+            # Topic-ordered or irregular books: better no verse passages than wrong ones.
+            conn.execute("DROP TABLE ayah_index")
+            print(f"  ayah index dropped: only {index_stats['ayahs_covered']} ayahs covered")
+            index_stats = None
     entry = finalize(conn, path)
     if index_stats:
         entry["ayah_index"] = index_stats
