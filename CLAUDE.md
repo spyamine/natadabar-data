@@ -27,10 +27,12 @@ verse_references (id, entry_id, surah, ayah, ayah_end, start_offset, end_offset)
 - Record source and license per book in `books`; keep `catalog/books.json` in sync.
 
 ## Integrating into naTadabar (~/Developer/naTadabar-ios)
-1. Download via the `TafsirDownloadService` pattern (`remoteAsset`), or bundle small DBs in Resources (add via project.yml).
-2. Copy to App Support before opening; follow `IhyaDatabaseManager` for the manager.
-3. Text: `SelectableFlowText` (single tap -> Lissan with `verseText:`, long press -> excerpt into a tadabbur). Accent color in `BookExcerptBlockView`, card in `MoreTab`.
-4. Check `license` first: OpenITI data is CC BY-NC-SA.
+Automatic: the app reads `catalog/library.json` (bundled copy + remote refresh) and downloads `download_url` assets from the `library-v1` release.
+1. Build the DB (`scripts/build_openiti.py <id>` or `build_islamweb.py <bk_no>`), run `scripts/verify.py`.
+2. `gh release upload library-v1 dist/<id>.db.deflate dist/manifest.json --clobber`, copy `dist/manifest.json` to `catalog/manifest.json`.
+3. `python3 scripts/export_app_catalog.py`, commit and push. The book now appears under More → Library (or Dictionaries).
+4. Optional: refresh the app's bundled copy: `cp catalog/library.json <app>/naTadabar/naTadabar/Resources/library.json`.
+Check `license` first: OpenITI data is CC BY-NC-SA (fine while the app is free).
 
 ## Discovering books
 `catalog/manifest.json` (also a release asset) maps every published book id to `download_url`, `sha256` (of the deflate file), `sha256_db`, sizes and counts. `catalog/books.json` adds titles, authors, tier, kind and license. A generic reader can be driven entirely from these two files.
