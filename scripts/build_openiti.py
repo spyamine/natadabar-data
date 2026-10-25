@@ -17,6 +17,7 @@ from pathlib import Path
 from common import DBS, ROOT, create_db, finalize, normalize, update_manifest
 
 TARGET = 1400
+DICT_CAP = 6000  # dictionary entries: a long headword continues in further entries (headword NULL)
 CACHE = ROOT / "work" / "openiti"
 INTRO_RE = re.compile(r"^(مقدمة|المقدمة|توطئة|تمهيد|خطبة|بسم الله|مدخل|فاتحة)")
 NOISE = re.compile(r"PageV\d+P\d+|\bms\d+\b|@[A-Z]+@|%~%|\$[A-Z_]+\$|\bAUTO\b|ms\d+")
@@ -63,7 +64,8 @@ def split_long(txt, limit=2200, target=1400):
     """Split an over-long paragraph at sentence ends (. ؟ ؛ !) after ~target chars."""
     out = []
     while len(txt) > limit:
-        m = re.search(r"[.؟!؛] ", txt[target:limit + 600])
+        m = re.search(r"[.؟!؛] ", txt[target:limit + 600]) or re.search(r"[،:] ", txt[target:limit + 600]) \
+            or re.search(r" ", txt[target:])
         if not m:
             break
         cut = target + m.end()
@@ -242,7 +244,7 @@ def build(book, rows_cat):
             if hre and (hm := hre.match(txt)):
                 buf_head[0] = hm.group(1)
         buf.append(txt)
-        if no_group or (not is_dict and sum(len(x) for x in buf) >= TARGET):
+        if no_group or sum(len(x) for x in buf) >= (DICT_CAP if is_dict else TARGET):
             flush_buf()
     flush_buf()
     entry = finalize(conn, path)
