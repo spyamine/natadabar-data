@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 
 from common import DBS, ROOT, create_db, finalize, normalize, update_manifest
+from tafsir_index import build_index
 
 SRC = Path.home() / "Developer" / "islamweb-scraper" / "output"
 
@@ -83,6 +84,9 @@ def build(bk_no, book):
         sec_for[wid] = cur.lastrowid
     seq_in = {}
     ent_map = {}
+    titles = dict((wid, title) for wid, title, _ in sections)
+    page_rows = []   # (new entry id, section title, first page of its section?, source entry id)
+    seen_sections = set()
     for eid, num, wid, page, tclean, tvoc in src.execute(
         "SELECT id, entry_number, book_id, page_number, text_clean, text_vocalized FROM entries ORDER BY page_number, id"
     ):
@@ -96,10 +100,21 @@ def build(bk_no, book):
             (sid, seq_in[sid], num, page, normalize(tclean or text), text),
         )
         ent_map[eid] = cur.lastrowid
-    for eid, s, a in src.execute("SELECT entry_id, surah_number, ayah_number FROM verse_references"):
+        page_rows.append((cur.lastrowid, titles.get(wid, ""), wid not in seen_sections, eid))
+        seen_sections.add(wid)
+    refs_by_entry = {}
+    for eid, s, a in src.execute("SELECT entry_id, surah_number, ayah_number FROM verse_references ORDER BY rowid"):
         if eid in ent_map:
             conn.execute("INSERT INTO verse_references(entry_id,surah,ayah) VALUES (?,?,?)", (ent_map[eid], s, a))
+            refs_by_entry.setdefault(eid, []).append((s, a))
+    index_stats = None
+    if book["category"] == "tafsir":
+        pages = [(nid, title, first, refs_by_entry.get(eid, [])) for nid, title, first, eid in page_rows]
+        index_stats = build_index(pages, conn)
+        print("  ayah index:", index_stats)
     entry = finalize(conn, path)
+    if index_stats:
+        entry["ayah_index"] = index_stats
     entry.update(title_ar=book["title_ar"], title_en=book["title_en"], category=book["category"],
                  source=book["source"], source_ref=book["source_ref"], license=book["license"])
     update_manifest(book["id"], entry)
