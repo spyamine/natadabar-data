@@ -1604,6 +1604,75 @@
   "title_ar": "",
   "title_en": "Al-Bahr al-Muhit (Abu Hayyan)"
  },
+ "al_durr_al_manthur_suyuti": {
+  "ayah_index": {
+   "ayahs_covered": 6236,
+   "pages_without_head": 25,
+   "passages": 2434,
+   "surahs_covered": 114
+  },
+  "category": "tafsir",
+  "chars": 8833338,
+  "db_bytes": 38830080,
+  "deflate_bytes": 8930675,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/al_durr_al_manthur_suyuti.db.deflate",
+  "entries": 2935,
+  "file": "al_durr_al_manthur_suyuti.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 115,
+  "sha256": "29b13005c6cb8042cdd22cc5e50c3f272ccdd8d488113cdfe5f8752bb9ff8bca",
+  "sha256_db": "3f440f58541c6070dfa66856882b5d634efc0f1398c0fdf37c7389b0a2fde00e",
+  "source": "islamweb",
+  "source_ref": "bk_no=203",
+  "title_ar": "",
+  "title_en": "Al-Durr al-Manthur (Suyuti)"
+ },
+ "al_durr_al_masun_samin_al_halabi": {
+  "ayah_index": {
+   "ayahs_covered": 6236,
+   "pages_without_head": 9,
+   "passages": 4204,
+   "surahs_covered": 114
+  },
+  "category": "tafsir",
+  "chars": 6559194,
+  "db_bytes": 30932992,
+  "deflate_bytes": 8124260,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/al_durr_al_masun_samin_al_halabi.db.deflate",
+  "entries": 4584,
+  "file": "al_durr_al_masun_samin_al_halabi.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 115,
+  "sha256": "c3a465067469ce7604100ff441ffeb9f094269334246f06a3851de75d657ab26",
+  "sha256_db": "ee2c647461bc0d5e795b59dcd5fc0a21b90d9407b024f15eefa631e00f71907d",
+  "source": "islamweb",
+  "source_ref": "bk_no=215",
+  "title_ar": "",
+  "title_en": "Al-Durr al-Masun (Samin al-Halabi)"
+ },
+ "al_iklil_fi_istinbat_al_tanzil_suyuti": {
+  "ayah_index": {
+   "ayahs_covered": 6089,
+   "pages_without_head": 38,
+   "passages": 1143,
+   "surahs_covered": 107
+  },
+  "category": "tafsir",
+  "chars": 387712,
+  "db_bytes": 2322432,
+  "deflate_bytes": 628828,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/al_iklil_fi_istinbat_al_tanzil_suyuti.db.deflate",
+  "entries": 1129,
+  "file": "al_iklil_fi_istinbat_al_tanzil_suyuti.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 111,
+  "sha256": "59f825c2931bf37fd929f00ca1553899b225125eab7db6fd6292c5df9139ecb4",
+  "sha256_db": "baa936c8a03a073b1837f63761b086bdd32d35a06a6785ade08da93ea71c8267",
+  "source": "islamweb",
+  "source_ref": "bk_no=219",
+  "title_ar": "",
+  "title_en": "Al-Iklil fi Istinbat al-Tanzil (Suyuti)"
+ },
  "al_misbah_al_munir": {
   "category": "dictionary",
   "chars": 1174353,
@@ -1741,6 +1810,29 @@
   "title_ar": "",
   "title_en": "Al-Tahrir wa al-Tanwir (Ibn Ashur)"
  },
+ "al_tahsil_li_fawaid_al_tafsil_mahdawi": {
+  "ayah_index": {
+   "ayahs_covered": 6229,
+   "pages_without_head": 131,
+   "passages": 676,
+   "surahs_covered": 113
+  },
+  "category": "tafsir",
+  "chars": 2787430,
+  "db_bytes": 13213696,
+  "deflate_bytes": 3321786,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/al_tahsil_li_fawaid_al_tafsil_mahdawi.db.deflate",
+  "entries": 1135,
+  "file": "al_tahsil_li_fawaid_al_tafsil_mahdawi.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 115,
+  "sha256": "af0b78e502f071114076a65dd2788f6fcc32338d29a9b86393f89f9cfce6217b",
+  "sha256_db": "feb4b437401386e47dc7b9207822bf8b88ed03ade5a5d51209378e7a236e4225",
+  "source": "islamweb",
+  "source_ref": "bk_no=404",
+  "title_ar": "",
+  "title_en": "Al-Tahsil li Fawaid al-Tafsil (Mahdawi)"
+ },
  "fath_al_qadir_shawkani": {
   "ayah_index": {
    "ayahs_covered": 6236,
@@ -1763,6 +1855,29 @@
   "source_ref": "bk_no=66",
   "title_ar": "",
   "title_en": "Fath al-Qadir (Shawkani)"
+ },
+ "fath_al_rahman_mujir_al_din_al_hanbali": {
+  "ayah_index": {
+   "ayahs_covered": 6236,
+   "pages_without_head": 282,
+   "passages": 5867,
+   "surahs_covered": 114
+  },
+  "category": "tafsir",
+  "chars": 2838626,
+  "db_bytes": 15241216,
+  "deflate_bytes": 3796001,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/fath_al_rahman_mujir_al_din_al_hanbali.db.deflate",
+  "entries": 6234,
+  "file": "fath_al_rahman_mujir_al_din_al_hanbali.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 128,
+  "sha256": "b83ac319304865dce507a11eb8f3d70fe652a5cb112803b7290a467afeff51ab",
+  "sha256_db": "42085ea489480a2a90ca3ea0411e09f36064b8987e3e2eb92df2fd78fad71683",
+  "source": "islamweb",
+  "source_ref": "bk_no=407",
+  "title_ar": "",
+  "title_en": "Fath al-Rahman (Mujir al-Din al-Hanbali)"
  },
  "fi_zilal_al_quran_sayyid_qutb": {
   "ayah_index": {
@@ -1888,6 +2003,29 @@
   "source_ref": "bk_no=6",
   "title_ar": "",
   "title_en": "Musnad Ahmad"
+ },
+ "nazm_al_durar_biqai": {
+  "ayah_index": {
+   "ayahs_covered": 6236,
+   "pages_without_head": 327,
+   "passages": 5604,
+   "surahs_covered": 114
+  },
+  "category": "tafsir",
+  "chars": 9620519,
+  "db_bytes": 47013888,
+  "deflate_bytes": 12583828,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/nazm_al_durar_biqai.db.deflate",
+  "entries": 6266,
+  "file": "nazm_al_durar_biqai.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 115,
+  "sha256": "7db5aea2c13d1d0051f8ee5b758ffbc5aa453793dcc9f451a6480cd1c0fe0da1",
+  "sha256_db": "bc51b4dacfe1087c7306f5b70fb19ab35a82b53ca8a09de91724b7d635a7508a",
+  "source": "islamweb",
+  "source_ref": "bk_no=214",
+  "title_ar": "",
+  "title_en": "Nazm al-Durar (Biqai)"
  },
  "riyad_al_salihin": {
   "category": "hadith",
@@ -2041,6 +2179,52 @@
   "source_ref": "bk_no=5",
   "title_ar": "",
   "title_en": "Sunan Ibn Majah"
+ },
+ "tafsir_abd_al_razzaq": {
+  "ayah_index": {
+   "ayahs_covered": 6236,
+   "pages_without_head": 351,
+   "passages": 1643,
+   "surahs_covered": 114
+  },
+  "category": "tafsir",
+  "chars": 656108,
+  "db_bytes": 3792896,
+  "deflate_bytes": 905256,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_abd_al_razzaq.db.deflate",
+  "entries": 1998,
+  "file": "tafsir_abd_al_razzaq.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 114,
+  "sha256": "2fafb0bf63534d6a44d659e1f4876e9e744d7ef70776ccf6f3bc0a28b312994a",
+  "sha256_db": "2837b3c387b09858328cf0fdd694f83fdbaa857676567b0a4cd40dcc50eee662",
+  "source": "islamweb",
+  "source_ref": "bk_no=1073",
+  "title_ar": "",
+  "title_en": "Tafsir Abd al-Razzaq"
+ },
+ "tafsir_abu_al_suud_irshad_al_aql": {
+  "ayah_index": {
+   "ayahs_covered": 6236,
+   "pages_without_head": 0,
+   "passages": 5891,
+   "surahs_covered": 114
+  },
+  "category": "tafsir",
+  "chars": 6163371,
+  "db_bytes": 31289344,
+  "deflate_bytes": 7997712,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_abu_al_suud_irshad_al_aql.db.deflate",
+  "entries": 6106,
+  "file": "tafsir_abu_al_suud_irshad_al_aql.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 115,
+  "sha256": "46328780ccd47d697d5abd8094ff491156c670027e28566d5067266020d0b18f",
+  "sha256_db": "2bf31ab4a9874922b639ace74cbb88b702735d01a6e94bf9251b961ddfbff00a",
+  "source": "islamweb",
+  "source_ref": "bk_no=208",
+  "title_ar": "",
+  "title_en": "Tafsir Abu al-Suud (Irshad al-Aql)"
  },
  "tafsir_al_alusi_ruh_al_maani": {
   "ayah_index": {
@@ -2243,6 +2427,63 @@
   "title_ar": "",
   "title_en": "Tafsir al-Tabari (Jami al-Bayan)"
  },
+ "tafsir_ibn_abi_hatim": {
+  "category": "tafsir",
+  "chars": 3849577,
+  "db_bytes": 17498112,
+  "deflate_bytes": 3635733,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_ibn_abi_hatim.db.deflate",
+  "entries": 2224,
+  "file": "tafsir_ibn_abi_hatim.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 21,
+  "sha256": "a7d10d3097ee32a60fbc613146ec3daac1ea62000704f318d7f980f8c26de086",
+  "sha256_db": "06e537b2c5fecaff2b638b8672be58bee6a998846f4533185778c4050b24a17f",
+  "source": "islamweb",
+  "source_ref": "bk_no=218",
+  "title_ar": "",
+  "title_en": "Tafsir Ibn Abi Hatim"
+ },
+ "tafsir_ibn_abi_zamanin": {
+  "ayah_index": {
+   "ayahs_covered": 6229,
+   "pages_without_head": 2,
+   "passages": 1256,
+   "surahs_covered": 113
+  },
+  "category": "tafsir",
+  "chars": 1523232,
+  "db_bytes": 8011776,
+  "deflate_bytes": 1864511,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_ibn_abi_zamanin.db.deflate",
+  "entries": 1269,
+  "file": "tafsir_ibn_abi_zamanin.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 115,
+  "sha256": "d64c9db11cffc95c15afc51b8fab1a5de863c2086c34cd49739844df41d0784e",
+  "sha256_db": "a3cdde74bf7c5d4df49620ab078c6dc46b73ae3e20df39a01ae0379ef05874b5",
+  "source": "islamweb",
+  "source_ref": "bk_no=1067",
+  "title_ar": "",
+  "title_en": "Tafsir Ibn Abi Zamanin"
+ },
+ "tafsir_ibn_al_mundhir": {
+  "category": "tafsir",
+  "chars": 604463,
+  "db_bytes": 2764800,
+  "deflate_bytes": 578486,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_ibn_al_mundhir.db.deflate",
+  "entries": 288,
+  "file": "tafsir_ibn_al_mundhir.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 3,
+  "sha256": "793183f975f72094753afb0ed53907439a5350a1a261463cc948ff9ce5e4d2a5",
+  "sha256_db": "50fafa0ec52d90ccd93fe09daeba5668477dc2e63b1213baa9db801c7785f0e8",
+  "source": "islamweb",
+  "source_ref": "bk_no=1075",
+  "title_ar": "",
+  "title_en": "Tafsir Ibn al-Mundhir"
+ },
  "tafsir_ibn_atiyya_al_muharrar_al_wajiz": {
   "ayah_index": {
    "ayahs_covered": 6036,
@@ -2266,6 +2507,69 @@
   "title_ar": "",
   "title_en": "Tafsir Ibn Atiyya (al-Muharrar al-Wajiz)"
  },
+ "tafsir_ibn_wahb": {
+  "category": "tafsir",
+  "chars": 232578,
+  "db_bytes": 1351680,
+  "deflate_bytes": 328414,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_ibn_wahb.db.deflate",
+  "entries": 958,
+  "file": "tafsir_ibn_wahb.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 10,
+  "sha256": "4a3675620c437562623be27110d618d416e0191ee47c95f50a20bdf051e09cf6",
+  "sha256_db": "0648523c1f5bb0d698aef7a9a7157b383a94c01dc703ff90b07a7f0af60f976d",
+  "source": "islamweb",
+  "source_ref": "bk_no=1093",
+  "title_ar": "",
+  "title_en": "Tafsir Ibn Wahb"
+ },
+ "tafsir_muqatil_ibn_sulayman": {
+  "ayah_index": {
+   "ayahs_covered": 5961,
+   "pages_without_head": 13,
+   "passages": 1490,
+   "surahs_covered": 86
+  },
+  "category": "tafsir",
+  "chars": 2194598,
+  "db_bytes": 11173888,
+  "deflate_bytes": 2577894,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_muqatil_ibn_sulayman.db.deflate",
+  "entries": 1549,
+  "file": "tafsir_muqatil_ibn_sulayman.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 87,
+  "sha256": "353a7de3c77117ef0e10f4c6c7a13c39fa146059535ff927b5ee114152acba7b",
+  "sha256_db": "91f5a71405f60c510607d2f19253548dd6d970a78e0af17f4e7fe3bfe9fae635",
+  "source": "islamweb",
+  "source_ref": "bk_no=1066",
+  "title_ar": "",
+  "title_en": "Tafsir Muqatil ibn Sulayman"
+ },
+ "tafsir_sufyan_al_thawri": {
+  "ayah_index": {
+   "ayahs_covered": 3915,
+   "pages_without_head": 92,
+   "passages": 472,
+   "surahs_covered": 41
+  },
+  "category": "tafsir",
+  "chars": 112789,
+  "db_bytes": 802816,
+  "deflate_bytes": 219170,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/tafsir_sufyan_al_thawri.db.deflate",
+  "entries": 600,
+  "file": "tafsir_sufyan_al_thawri.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 49,
+  "sha256": "885745a378a047a56590d10cbeefd7502be5fba99d4c74bb5a73a01a219522c4",
+  "sha256_db": "7a16772dd4098f71f5b7bde4358610b46bc7cbb2edb3d4671973853767c8afb3",
+  "source": "islamweb",
+  "source_ref": "bk_no=1098",
+  "title_ar": "",
+  "title_en": "Tafsir Sufyan al-Thawri"
+ },
  "zad_al_masir_ibn_al_jawzi": {
   "ayah_index": {
    "ayahs_covered": 6228,
@@ -2288,5 +2592,22 @@
   "source_ref": "bk_no=216",
   "title_ar": "",
   "title_en": "Zad al-Masir (Ibn al-Jawzi)"
+ },
+ "zahrat_al_tafasir_abu_zahra": {
+  "category": "tafsir",
+  "chars": 7724231,
+  "db_bytes": 35667968,
+  "deflate_bytes": 9156706,
+  "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/zahrat_al_tafasir_abu_zahra.db.deflate",
+  "entries": 2980,
+  "file": "zahrat_al_tafasir_abu_zahra.db.deflate",
+  "license": "islamweb.net library; edition copyright not stated, verify before redistribution",
+  "sections": 29,
+  "sha256": "bcc36a0b5e00e3b802d095dcdad0296ff24d726d31d14d9c49f260a52d71db9e",
+  "sha256_db": "fc87501e4cb01ca4ed21b6f7427456f522300b694e14bc5e515a270895c6ff8a",
+  "source": "islamweb",
+  "source_ref": "bk_no=221",
+  "title_ar": "",
+  "title_en": "Zahrat al-Tafasir (Abu Zahra)"
  }
 }
