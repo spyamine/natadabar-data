@@ -13,6 +13,10 @@ entries  (id, book_id, section_id, seq, number, part, page, text_clean, text_voc
 entry_fts   FTS5 over entries.text_clean (content=entries)
 verse_references (id, entry_id, surah, ayah, ayah_end, start_offset, end_offset)   -- optional
 ```
+`headword` is set only where the source format makes it certain (e.g. Mufradat al-Raghib, Lisan-style dictionaries); otherwise NULL.
+`lead` is always set: the first two normalized words of the entry. For dictionaries whose headword is simply the entry's first word, look up a tapped word with
+`WHERE headword = :w OR lead LIKE :w || '%'` (normalize `:w` with the same rules), then fall back to FTS.
+`kind` of a dictionary (quran_vocab, hadith_vocab, lexicon, terminology) is in `catalog/books.json`, not in the DB.
 `text_clean` is normalized for search (no diacritics, unified alef/taa marbuta, see islamweb-scraper `normalize.py`); `text_vocalized` is the display text. Dictionaries use `entries` for each headword with `number` = root/headword order.
 
 ## Build rules
@@ -27,3 +31,6 @@ verse_references (id, entry_id, surah, ayah, ayah_end, start_offset, end_offset)
 2. Copy to App Support before opening; follow `IhyaDatabaseManager` for the manager.
 3. Text: `SelectableFlowText` (single tap -> Lissan with `verseText:`, long press -> excerpt into a tadabbur). Accent color in `BookExcerptBlockView`, card in `MoreTab`.
 4. Check `license` first: OpenITI data is CC BY-NC-SA.
+
+## Discovering books
+`catalog/manifest.json` (also a release asset) maps every published book id to `download_url`, `sha256` (of the deflate file), `sha256_db`, sizes and counts. `catalog/books.json` adds titles, authors, tier, kind and license. A generic reader can be driven entirely from these two files.

@@ -31,6 +31,8 @@ COLON_HEAD = re.compile(r"^([\u0621-\u065F\u0671-\u06D3]{1,14}) : ")
 LETTER_SPLIT = {"0502raghibisbahani_mufradat"}
 BOOK_CFG = {
     "0276ibnqutaybadinawari_gharibquran": dict(heading_filter=r"^(باب|مقدمة|كتاب|سورة)", no_group=True),
+    "0745abuhayyangharnati_tuhfatarib": dict(headword_re=r"^([\u0621-\u064A]{2,5}) : ", no_group=True),
+    "0650ibnmuhammadradidinsaghani_takmila": dict(head_heading=r"^### \|\|\| (?:AUTO )?\(?([^)\n]+?)\)?\s*$"),
     "0330ibncuzayzsijistani_gharibquran": dict(verse_re=r"^### \|\| \[(\d+)\.(\d+)\]", no_group=True,
                                               headword_re=r"^\{ ?(.+?) ?\}"),
 }
@@ -76,7 +78,7 @@ def split_long(txt, limit=2200, target=1400):
     return out
 
 
-def parse(body, heading_re, heading_filter=None, verse_re=None):
+def parse(body, heading_re, heading_filter=None, verse_re=None, head_heading=None):
     """Yield ('heading', title) / ('para', text, part, page) events."""
     events, cur, part, page, cur_pos = [], [], 0, 0, (0, 0)
 
@@ -100,6 +102,12 @@ def parse(body, heading_re, heading_filter=None, verse_re=None):
             if vm:
                 flush()
                 events.append(("verse", int(vm.group(1)), int(vm.group(2))))
+                continue
+        if head_heading:
+            hh = head_heading.match(line)
+            if hh:
+                flush()
+                events.append(("headword", re.sub(r"[^\u0621-\u064A]", "", clean(hh.group(1)))))
                 continue
         ib = INLINE_BOOK.search(line)
         if ib and heading_re and line.startswith("# "):
@@ -168,7 +176,8 @@ def build(book, rows_cat):
     hf = re.compile(cfg["heading_filter"]) if "heading_filter" in cfg else None
     vre = re.compile(cfg["verse_re"]) if "verse_re" in cfg else None
     hre = re.compile(cfg["headword_re"]) if "headword_re" in cfg else None
-    events = parse(body, heading_re, hf, vre)
+    hh = re.compile(cfg["head_heading"], re.M) if "head_heading" in cfg else None
+    events = parse(body, heading_re, hf, vre, hh)
     events = fold_headings(events)
     no_group = cfg.get("no_group", False)
     n_heads = sum(1 for e in events if e[0] == "para" and (COLON_HEAD.match(e[1]) or ARABIC_WORD.match(e[1])))
@@ -226,6 +235,14 @@ def build(book, rows_cat):
         _, txt, part, page = ev
         if sec_id is None:
             new_section("المقدمة" if heading_re else book["title_ar"], "intro" if heading_re else "chapter")
+        hm = hre.match(txt) if hre else None
+        if hm:
+            flush_buf()
+            buf_head[0] = hm.group(1)
+            buf, buf_pos = [txt], (part, page)
+            if no_group:
+                flush_buf()
+            continue
         ch = COLON_HEAD.match(txt) if is_dict else None
         if ch:
             flush_buf()
@@ -241,8 +258,6 @@ def build(book, rows_cat):
             buf_pos = (part, page)
             if pending_head:
                 buf_head[0], pending_head = pending_head[:60], None
-            if hre and (hm := hre.match(txt)):
-                buf_head[0] = hm.group(1)
         buf.append(txt)
         if no_group or sum(len(x) for x in buf) >= (DICT_CAP if is_dict else TARGET):
             flush_buf()

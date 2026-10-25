@@ -29,12 +29,13 @@ CREATE TABLE sections (id INTEGER PRIMARY KEY, book_id INTEGER NOT NULL, ordinal
     kind TEXT NOT NULL CHECK(kind IN ('intro','chapter')), title TEXT NOT NULL,
     first_entry_id INTEGER, entry_count INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE entries (id INTEGER PRIMARY KEY, book_id INTEGER NOT NULL, section_id INTEGER NOT NULL,
-    seq INTEGER NOT NULL, number INTEGER, part INTEGER, page INTEGER, headword TEXT,
+    seq INTEGER NOT NULL, number INTEGER, part INTEGER, page INTEGER, headword TEXT, lead TEXT,
     text_clean TEXT NOT NULL, text_vocalized TEXT NOT NULL);
 CREATE TABLE verse_references (id INTEGER PRIMARY KEY, entry_id INTEGER NOT NULL, surah INTEGER,
     ayah INTEGER, ayah_end INTEGER, start_offset INTEGER, end_offset INTEGER);
 CREATE INDEX idx_entries_section ON entries(section_id, seq);
 CREATE INDEX idx_entries_book ON entries(book_id, seq);
+CREATE INDEX idx_entries_lead ON entries(lead);
 CREATE INDEX idx_entries_headword ON entries(headword) WHERE headword IS NOT NULL;
 CREATE INDEX idx_sections_book ON sections(book_id, ordinal);
 CREATE INDEX idx_verses_entry ON verse_references(entry_id);
@@ -50,8 +51,19 @@ def create_db(path: Path) -> sqlite3.Connection:
     return conn
 
 
+_LEAD_JUNK = re.compile(r"^[^\u0621-\u064A]+")
+
+
+def lead_of(text_clean: str, n: int = 2) -> str:
+    """First n words of an entry, normalized: lets an app look up entries that begin with a tapped word
+    (dictionaries whose headword is simply the first word, with no delimiter)."""
+    return " ".join(_LEAD_JUNK.sub("", text_clean).split()[:n])
+
+
 def finalize(conn: sqlite3.Connection, path: Path) -> dict:
     """Build FTS, section counts, VACUUM, then package as raw-deflate + sha256. Returns manifest entry."""
+    conn.executemany("UPDATE entries SET lead=? WHERE id=?",
+                     [(lead_of(t), i) for i, t in conn.execute("SELECT id, text_clean FROM entries").fetchall()])
     conn.executescript("""
         UPDATE sections SET
           first_entry_id = (SELECT MIN(id) FROM entries e WHERE e.section_id = sections.id),
