@@ -93,12 +93,16 @@ DICT_ISLAMWEB = [
 DICT_OPENITI = [
     ("0393IbnHammadJawhari.SihahTajLugha", "Al-Sihah (Jawhari)", 2, ""),
     ("0538JarAllahZamakhshari.AsasBalagha", "Asas al-Balagha", 1, "Metaphorical usages, good for Quranic nuance"),
+    ("0502RaghibIsbahani.Mufradat", "Mufradat Alfaz al-Quran (Raghib)", 1, "Quran vocabulary; top priority for tadabbur"),
+    ("0756IbnYusufSaminHalabi.CumdatHuffaz", "Umdat al-Huffaz (Samin al-Halabi)", 1, "Quran vocabulary, headword per entry"),
+    ("0276IbnQutaybaDinawari.GharibQuran", "Gharib al-Quran (Ibn Qutayba)", 1, "Surah order"),
+    ("0330IbnCuzayzSijistani.GharibQuran", "Nuzhat al-Qulub (Sijistani)", 1, "Quran vocabulary"),
+    ("0597IbnJawzi.NuzhatAcyun", "Nuzhat al-Ayun al-Nawazir", 2, "Quranic wujuh and nazair"),
     ("0370AbuMansurAzhari.TahdhibLugha", "Tahdhib al-Lugha", 3, "Large"),
     ("1205MurtadaZabidi.TajCarus", "Taj al-Arus", 3, "Very large"),
     ("0911Suyuti.MuzhirFiCulumLugha", "Al-Muzhir fi Ulum al-Lugha", 3, "Language sciences"),
 ]
 DICT_GAPS = [
-    "Mufradat Alfaz al-Quran (Raghib al-Isfahani): top-priority for tadabbur; not found on islamweb or OpenITI; try Shamela/other source",
     "Al-Ayn (Farahidi), Jamharat al-Lugha (Ibn Durayd), Al-Muhkam (Ibn Sida): not found in sources checked",
     "Gharib al-Quran books (Ibn Qutayba, Sijistani)",
 ]
