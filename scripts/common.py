@@ -60,6 +60,90 @@ def lead_of(text_clean: str, n: int = 2) -> str:
     return " ".join(_LEAD_JUNK.sub("", text_clean).split()[:n])
 
 
+_BAB_HEAD = re.compile(r"^(?:\(\s*\d+\s*\)|\d+\s*-)?\s*\(?باب\b")
+_LEAD_NUM = re.compile(r"^\D{0,3}(\d{1,6})\b")
+_BAB_TITLE_END = re.compile(r"\s+(?:\d+|قال الله|قال تعالى|قال العلماء|وعن |حدثنا|أخبرنا)\b|[:：]")
+
+
+def bab_title(text: str, maxlen: int = 90) -> str:
+    t = re.sub(r"^(?:\(\s*\d+\s*\)|\d+\s*-)\s*", "", text.strip())
+    t = re.sub(r"^\(|\)", "", t)
+    m = _BAB_TITLE_END.search(t, 8)
+    t = t[:m.start()] if m else t
+    if len(t) > maxlen:
+        t = t[:maxlen].rsplit(" ", 1)[0] + "…"
+    return t.strip()
+
+
+def split_big_sections(conn, limit: int = 300, min_heads: int = 8, min_part: int = 6):
+    """Hadith books keep a whole كتاب in one section; a 1,000-hadith كتاب الصلاة is unreadable. Cut sections
+    longer than `limit` entries at the entries that open a باب, titling each part "كتاب X — باب Y".
+    Sections without باب heads stay whole (nothing reliable to cut at)."""
+    for sid, title in conn.execute("SELECT id, title FROM sections ORDER BY ordinal").fetchall():
+        rows = conn.execute("SELECT id, text_vocalized FROM entries WHERE section_id=? ORDER BY seq", (sid,)).fetchall()
+        heads = [i for i, (_, t) in enumerate(rows) if _BAB_HEAD.match(t or "")]
+        if len(rows) <= limit or len(heads) < min_heads:
+            continue
+        cuts = sorted(set([0] + heads))
+        parts = [(cuts[k], cuts[k + 1] if k + 1 < len(cuts) else len(rows)) for k in range(len(cuts))]
+        merged = []   # runs of one-hadith abwab would give hundreds of near-empty sections: join them up to min_part
+        for a, b in parts:
+            if merged and merged[-1][1] - merged[-1][0] < min_part:
+                merged[-1][1] = b
+                merged[-1][2].append(a)
+            else:
+                merged.append([a, b, [a]])
+        parts = [(a, b, heads_in) for a, b, heads_in in merged]
+        extra = title == "أبواب متنوعة"
+        ordinal_shift = len(parts) - 1
+        conn.execute("UPDATE sections SET ordinal = ordinal + ? WHERE ordinal > (SELECT ordinal FROM sections WHERE id=?)",
+                     (ordinal_shift, sid))
+        base = conn.execute("SELECT ordinal FROM sections WHERE id=?", (sid,)).fetchone()[0]
+        for k, (a, b, heads_in) in enumerate(parts):
+            first = [h for h in heads_in if h in heads]
+            head = bab_title(rows[first[0]][1]) if first else ""
+            if len(first) > 1:
+                head += " …"
+            ttl = head or title if extra or not head else f"{title} — {head}"
+            if k == 0:
+                conn.execute("UPDATE sections SET title=? WHERE id=?", (ttl, sid))
+                new_id = sid
+            else:
+                new_id = conn.execute("INSERT INTO sections(book_id,ordinal,kind,title) VALUES (1,?,?,?)",
+                                      (base + k, "chapter", ttl)).lastrowid
+            for seq, (eid, _) in enumerate(rows[a:b], 1):
+                conn.execute("UPDATE entries SET section_id=?, seq=? WHERE id=?", (new_id, seq, eid))
+    chunk_big_sections(conn)
+    conn.commit()
+
+
+def chunk_big_sections(conn, limit: int = 600, size: int = 400):
+    """Sections still over `limit` entries (no باب heads to cut at, e.g. Musnad Ahmad): cut into runs of ~`size`
+    entries titled by the hadith numbers they span."""
+    for sid, title in conn.execute("SELECT id, title FROM sections ORDER BY ordinal").fetchall():
+        rows = conn.execute("SELECT id, text_vocalized FROM entries WHERE section_id=? ORDER BY seq", (sid,)).fetchall()
+        if len(rows) <= limit:
+            continue
+        parts = -(-len(rows) // size)
+        step = -(-len(rows) // parts)
+        chunks = [rows[i:i + step] for i in range(0, len(rows), step)]
+        conn.execute("UPDATE sections SET ordinal = ordinal + ? WHERE ordinal > (SELECT ordinal FROM sections WHERE id=?)",
+                     (len(chunks) - 1, sid))
+        base = conn.execute("SELECT ordinal FROM sections WHERE id=?", (sid,)).fetchone()[0]
+        for k, chunk in enumerate(chunks):
+            a, b = (_LEAD_NUM.match(chunk[0][1] or ""), _LEAD_NUM.match(chunk[-1][1] or ""))
+            span = f"الأحاديث {a.group(1)}–{b.group(1)}" if a and b else f"الجزء {k + 1}"
+            ttl = f"{title} — {span}"
+            if k == 0:
+                conn.execute("UPDATE sections SET title=? WHERE id=?", (ttl, sid))
+                new_id = sid
+            else:
+                new_id = conn.execute("INSERT INTO sections(book_id,ordinal,kind,title) VALUES (1,?,?,?)",
+                                      (base + k, "chapter", ttl)).lastrowid
+            for seq, (eid, _) in enumerate(chunk, 1):
+                conn.execute("UPDATE entries SET section_id=?, seq=? WHERE id=?", (new_id, seq, eid))
+
+
 def finalize(conn: sqlite3.Connection, path: Path) -> dict:
     """Build FTS, section counts, VACUUM, then package as raw-deflate + sha256. Returns manifest entry."""
     conn.executemany("UPDATE entries SET lead=? WHERE id=?",

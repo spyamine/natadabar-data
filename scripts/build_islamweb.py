@@ -12,7 +12,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
-from common import DBS, ROOT, create_db, finalize, normalize, update_manifest
+from common import DBS, ROOT, create_db, finalize, normalize, split_big_sections, update_manifest
 from tafsir_index import build_index
 
 MIN_INDEX_COVERAGE = 3500  # of 6,236 ayahs
@@ -118,6 +118,8 @@ def build(bk_no, book):
             conn.execute("DROP TABLE ayah_index")
             print(f"  ayah index dropped: only {index_stats['ayahs_covered']} ayahs covered")
             index_stats = None
+    if book["category"] == "hadith":
+        split_big_sections(conn)
     entry = finalize(conn, path)
     if index_stats:
         entry["ayah_index"] = index_stats

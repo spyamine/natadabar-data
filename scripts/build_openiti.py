@@ -28,8 +28,33 @@ COLON_HEAD = re.compile(r"^([\u0621-\u065F\u0671-\u06D3]{1,14}) : ")
 
 # Per-book overrides. heading_filter: only headings matching it become sections.
 # verse_re: lines marking a verse ("### || [s.a]"); no_group: one entry per paragraph.
+ORD = r"(?:الأول|الأولى|الثاني|الثانى|الثانية|الثالث|الثالثة|الثاثة|الرابع|الرابعة|الخامس|الخامسة|السادس|السادسة|الشادسة|السابع|السابعة|الشابعة)"
 LETTER_SPLIT = {"0502raghibisbahani_mufradat"}
 BOOK_CFG = {
+    "0610mutarrizi_mughribfitartibmucrib": dict(page_chunks=25),
+    "0879ibnqutlubugha_gharibquran": dict(page_chunks=10),
+    "0330ibncuzayzsijistani_ishtiqaq": dict(page_chunks=10),
+    "0328abubakribnanbari_addad": dict(page_chunks=15),
+    "0206abucamrshaybani_jim": dict(page_chunks=15),
+    "0302qasimcawfi_dalailfigharibhadith": dict(page_chunks=40),
+    "1085fakhrdinturayhi_tafsirgharibquran": dict(page_chunks=15),
+    "0656ibncabdqawimundhiri_targhibwatarhib": dict(
+        heading_filter=r"^(كتاب|فصل في|مقدمة|المقدمة|قال أخلص)", title_cut=r"\s+(?:الترغيب|الترهيب)\b",
+        title_fix={"قال أخلص دينك يكفك العمل القليل": "الترغيب في الإخلاص والصدق وحسن النية"}),
+    "0505ghazali_minhajcabidin": dict(
+        line_heading=r"^(العقبة " + ORD + r")\s*$",
+        title_fix={"العقبة الأولى": "العقبة الأولى: العلم والمعرفة", "العقبة الثانية": "العقبة الثانية: التوبة",
+                   "العقبة الثاثة": "العقبة الثالثة: العوائق", "العقبة الرابعة": "العقبة الرابعة: العوارض",
+                   "العقبة الخامسة": "العقبة الخامسة: البواعث", "العقبة الشادسة": "العقبة السادسة: القوادح",
+                   "العقبة الشابعة": "العقبة السابعة: الحمد والشكر"}),
+    "0505ghazali_tahafut": dict(heading_filter=r"^(المقدمة|مسألة)", number_titles="المسألة"),
+    "0505ghazali_asnafmaghrurin": dict(line_heading=r"^(غرور الكافر|الصنف " + ORD + r")\s*$",
+        title_fix={"الصنف الأول": "الصنف الأول: العلماء", "الصنف الثانى": "الصنف الثاني: أرباب العبادات والأعمال",
+                   "الصنف الثالث": "الصنف الثالث: أرباب الأموال", "الصنف الرابع": "الصنف الرابع: المتصوفة"}),
+    "0505ghazali_fadaih": dict(page_chunks=20),
+    "0505ghazali_mihakknazar": dict(page_chunks=20),
+    "0505ghazali_micyarcilm": dict(page_chunks=20),
+    "0505ghazali_maqasidfalasifa": dict(line_heading=r"^\(((?:القول|الفصل|مقدمة)[^)]{2,70})\)"),
     "0276ibnqutaybadinawari_gharibquran": dict(heading_filter=r"^(باب|مقدمة|كتاب|سورة)", no_group=True),
     "0745abuhayyangharnati_tuhfatarib": dict(headword_re=r"^([\u0621-\u064A]{2,5}) : ", no_group=True),
     "0650ibnmuhammadradidinsaghani_takmila": dict(head_heading=r"^### \|\|\| (?:AUTO )?\(?([^)\n]+?)\)?\s*$"),
@@ -78,8 +103,13 @@ def split_long(txt, limit=2200, target=1400):
     return out
 
 
-def parse(body, heading_re, heading_filter=None, verse_re=None, head_heading=None):
-    """Yield ('heading', title) / ('para', text, part, page) events."""
+LINE_PREFIX = re.compile(r"^(?:~~|# |### \|+ |### \$ )+")
+
+
+def parse(body, heading_re, heading_filter=None, verse_re=None, head_heading=None, line_heading=None, skip_lines=0):
+    """Yield ('heading', title) / ('para', text, part, page) events.
+    line_heading: regex tried on every raw line (markdown prefix stripped); group 1 (or the whole match)
+    becomes a section title. For texts whose chapter titles are plain paragraphs. skip_lines ignores a table of contents."""
     events, cur, part, page, cur_pos = [], [], 0, 0, (0, 0)
 
     def flush():
@@ -90,10 +120,16 @@ def parse(body, heading_re, heading_filter=None, verse_re=None, head_heading=Non
                 events.append(("para", piece, cur_pos[0], cur_pos[1]))
             cur = []
 
-    for line in body.split("\n"):
+    for ln, line in enumerate(body.split("\n")):
         m = PAGE.search(line)
         if m:
             part, page = int(m.group(1)), int(m.group(2))
+        if line_heading and ln >= skip_lines:
+            lm = line_heading.match(LINE_PREFIX.sub("", line))
+            if lm:
+                flush()
+                events.append(("heading", clean(lm.group(1) if lm.groups() else lm.group(0))))
+                continue
         if line.startswith("~~"):
             cur.append(line[2:])
             continue
@@ -159,6 +195,80 @@ def fold_headings(events, max_sections=250):
     return out
 
 
+JUNK_TITLE = re.compile(r"\bCHECK\b|\b(?:PARATEXT|EDITOR)\b|«\d+»|\|+|#+|\.{2,}|…|^[\s+*>?=\-.:]+|[\s+*>?=\-:]+$")
+HAS_ARABIC = re.compile(r"[\u0621-\u064A]")
+
+
+def tidy_sections(conn):
+    """Final pass over sections: strip OCR/markup junk from titles, merge a heading that has no entries
+    into the next one ("الفصل الثاني — في حصر مقاصد القرآن"), and tell identical short titles apart
+    by the opening words of their first entry ("دقيقة — إن النور ..."). Renumbers ordinals."""
+    rows = conn.execute("SELECT id, kind, title FROM sections ORDER BY ordinal").fetchall()
+    n = dict(conn.execute("SELECT section_id, COUNT(*) FROM entries GROUP BY section_id").fetchall())
+    secs, carry = [], []
+    for sid, kind, title in rows:
+        title = re.sub(r"\s+", " ", JUNK_TITLE.sub(" ", title)).strip().strip("[]()").strip()
+        if not HAS_ARABIC.search(title):
+            if secs:   # a heading that is only markup: its entries continue the previous section
+                conn.execute("UPDATE entries SET section_id=?, seq=seq+(SELECT COALESCE(MAX(seq),0) FROM entries WHERE section_id=?) WHERE section_id=?",
+                             (secs[-1][0], secs[-1][0], sid))
+                continue
+            title = "المقدمة"
+        if not n.get(sid):
+            if not INTRO_RE.match(title) and title != "جواهر القرآن":
+                carry.append(title)
+            continue
+        if carry and kind == "chapter":
+            title = " — ".join([*carry[-2:], title])
+        if len(title) > 90:
+            title = title[:90].rsplit(" ", 1)[0] + "…"
+        carry = []
+        secs.append([sid, kind, title])
+    seen = {}
+    for sec in secs:
+        seen.setdefault(sec[2], []).append(sec)
+    for title, group in seen.items():
+        if len(group) > 1 and len(title) <= 24:
+            for sec in group:
+                first = conn.execute("SELECT text_vocalized FROM entries WHERE section_id=? ORDER BY seq LIMIT 1", (sec[0],)).fetchone()
+                words = re.sub(r"[^\u0621-\u064A\s]", " ", first[0] if first else "").split()
+                if words[:len(title.split())] == title.split():
+                    words = words[len(title.split()):]
+                if words:
+                    sec[2] = f"{title} — {' '.join(words[:6])}"
+    keep = {s[0] for s in secs}
+    for sid, _, _ in rows:
+        if sid not in keep:
+            conn.execute("DELETE FROM sections WHERE id=?", (sid,))
+    for i, (sid, kind, title) in enumerate(secs, 1):
+        conn.execute("UPDATE sections SET ordinal=?, title=? WHERE id=?", (i, title, sid))
+    conn.commit()
+
+
+def split_by_pages(conn, span):
+    """A text with no usable headings: cut its single section into runs of `span` printed pages,
+    titled by page range, so the reader has navigable parts instead of one endless scroll."""
+    rows = conn.execute("SELECT id, page FROM entries ORDER BY id").fetchall()
+    pages = [r[1] for r in rows if r[1]]
+    if not pages:
+        return
+    first, last = min(pages), max(pages)
+    conn.execute("DELETE FROM sections")
+    made, ordinal, cur = {}, 0, first
+    for eid, page in rows:
+        page = page or cur
+        cur = page
+        key = (page - first) // span
+        if key not in made:
+            ordinal += 1
+            lo = first + key * span
+            hi = min(lo + span - 1, last)
+            made[key] = conn.execute("INSERT INTO sections(book_id,ordinal,kind,title) VALUES (1,?,?,?)",
+                                     (ordinal, "chapter", f"الصفحات {lo}–{hi}")).lastrowid
+        conn.execute("UPDATE entries SET section_id=? WHERE id=?", (made[key], eid))
+    conn.commit()
+
+
 def build(book, rows_cat):
     text = fetch(book)
     meta, edition = header(text)
@@ -177,7 +287,8 @@ def build(book, rows_cat):
     vre = re.compile(cfg["verse_re"]) if "verse_re" in cfg else None
     hre = re.compile(cfg["headword_re"]) if "headword_re" in cfg else None
     hh = re.compile(cfg["head_heading"], re.M) if "head_heading" in cfg else None
-    events = parse(body, heading_re, hf, vre, hh)
+    lh = re.compile(cfg["line_heading"]) if "line_heading" in cfg else None
+    events = parse(body, heading_re, hf, vre, hh, lh, cfg.get("skip_lines", 0))
     events = fold_headings(events)
     no_group = cfg.get("no_group", False)
     n_heads = sum(1 for e in events if e[0] == "para" and (COLON_HEAD.match(e[1]) or ARABIC_WORD.match(e[1])))
@@ -190,7 +301,7 @@ def build(book, rows_cat):
          "openiti", book["source_ref"], edition, book["license"]),
     )
     sections, ordinal, seq, sec_id, buf, buf_pos, eid = 0, 0, 0, None, [], (0, 0), 0
-    sec_intro_possible = True
+    sec_intro_possible, nth = True, 0
     cur_verse = None
     pending_head = None
 
@@ -230,11 +341,17 @@ def build(book, rows_cat):
             kind = "intro" if (sec_intro_possible and INTRO_RE.match(ev[1])) else "chapter"
             if kind == "chapter":
                 sec_intro_possible = False
-            new_section(ev[1], kind)
+            title = cfg.get("title_fix", {}).get(ev[1], ev[1])
+            if cfg.get("title_cut"):
+                title = re.split(cfg["title_cut"], title, maxsplit=1)[0]
+            if cfg.get("number_titles") and kind == "chapter":
+                nth += 1
+                title = f'{cfg["number_titles"]} {nth}: {re.sub(r"^مسألة ", "", title)}'
+            new_section(title, kind)
             continue
         _, txt, part, page = ev
         if sec_id is None:
-            new_section("المقدمة" if heading_re else book["title_ar"], "intro" if heading_re else "chapter")
+            new_section("المقدمة" if (heading_re or lh) else book["title_ar"], "intro" if (heading_re or lh) else "chapter")
         hm = hre.match(txt) if hre else None
         if hm:
             flush_buf()
@@ -262,6 +379,9 @@ def build(book, rows_cat):
         if no_group or sum(len(x) for x in buf) >= (DICT_CAP if is_dict else TARGET):
             flush_buf()
     flush_buf()
+    if cfg.get("page_chunks") and conn.execute("SELECT COUNT(*) FROM sections").fetchone()[0] == 1:
+        split_by_pages(conn, cfg["page_chunks"])
+    tidy_sections(conn)
     entry = finalize(conn, path)
     entry.update(title_ar=book["title_ar"], title_en=book["title_en"], category=book["category"],
                  source=book["source"], source_ref=book["source_ref"], license=book["license"])
