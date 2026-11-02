@@ -58,3 +58,10 @@ iOS side: `~/Developer/naTadabar-ios/naTadabar/naTadabar/{Core,Features}/Library
 - Book DBs must be journal mode DELETE; the app copies nothing from the bundle for library books (downloads into Application Support/Library).
 - iOS project is generated: edit `project.yml`, run `xcodegen generate`; resources must be listed there.
 - Simulators: only `Claude-iPhone17` (95AF22D5-8458-4F92-8400-92F10D5E4722) and `Claude-iPad-A16`.
+
+## Automatic book tashkīl — next session (2026-11-02)
+
+- Amine verified Al-Munqidh on his iPhone and wants expansion to other books. Queued for when he resumes; no bulk job is running.
+- Pilot is published: 0505ghazali_munqidh-tashkil-v1.db.deflate on library-v1; catalog/tashkil.json selects it while its source SHA matches. Scripts/docs: scripts/generate_tashkil.py, scripts/publish_tashkil.py, scripts/TASHKIL.md. Source and generated text coexist; original IDs/fields stay intact.
+- Start with a small Ghazali batch, review quotation protection and generated samples, validate all original fields and file integrity, then publish versioned assets and export the catalog. Keep the automatic-generation error notice; linguistic accuracy is not established by integrity checks.
+- iOS reader integration is pushed on naTadabar-ios/feature/book-tashkil (5ed09e6); not merged into app main. Five Python tests and iOS LibraryDatabaseTests passed. See the app's .minion/TODO.md for handoff details.
