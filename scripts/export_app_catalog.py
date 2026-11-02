@@ -53,8 +53,14 @@ GHAZALI_AR = "أبو حامد الغزالي"
 def main():
     books = {b["id"]: b for b in json.loads((ROOT / "catalog" / "books.json").read_text())}
     manifest = json.loads((ROOT / "catalog" / "manifest.json").read_text())
+    # Optional generated versions retain original source fields and entry IDs.
+    tashkil_path = ROOT / "catalog" / "tashkil.json"
+    tashkil = json.loads(tashkil_path.read_text()) if tashkil_path.exists() else {}
     out = []
     for bid, m in manifest.items():
+        generated = tashkil.get(bid)
+        if generated and generated["source_sha256"] == m["sha256_db"]:
+            m = {**m, **{k: generated[k] for k in ("deflate_bytes", "db_bytes", "sha256_db", "download_url")}}
         b = books[bid]
         title, author, death, kind = b["title_ar"], b.get("author_ar", ""), b.get("death_ah"), b.get("kind")
         if b["source"] == "islamweb":

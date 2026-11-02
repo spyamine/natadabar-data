@@ -1,0 +1,19 @@
+{
+  "0505ghazali_munqidh": {
+    "model": "CATT encoder-decoder v2 ONNX",
+    "package": "1.0.2",
+    "model_sha256": {
+      "decoder.onnx": "9ab419f6e48b25f81e08e64479fc1caa6921a88dbba9932a901fc64ce8cf1240",
+      "encoder.onnx": "988a91ec817bc50a7857a9851a5edd80d6a4c2f594b7ba6fea615b4ebe336590"
+    },
+    "source_sha256": "52c0d16f627c97d94d3109380a0a4c4b6935ffaa086c2867e80685ec61d57f10",
+    "notice": "التشكيل آليّ وقد يتضمّن أخطاء.",
+    "reviewed": false,
+    "entries": 43,
+    "db_bytes": 569344,
+    "deflate_bytes": 146866,
+    "sha256_db": "69bef661e763c21e0b05932a404ccd189facf85f36ae554233d43a4d1cb22c61",
+    "sha256": "36c83c5b61965b74affe0f915e86b9b844a9fa9aaae47804df49cffd005ebc56",
+    "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_munqidh-tashkil-v1.db.deflate"
+  }
+}
