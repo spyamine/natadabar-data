@@ -15,5 +15,22 @@
     "sha256_db": "69bef661e763c21e0b05932a404ccd189facf85f36ae554233d43a4d1cb22c61",
     "sha256": "36c83c5b61965b74affe0f915e86b9b844a9fa9aaae47804df49cffd005ebc56",
     "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_munqidh-tashkil-v1.db.deflate"
+  },
+  "0505ghazali_asnafmaghrurin": {
+    "model": "CATT encoder-decoder v2 ONNX",
+    "package": "1.0.2",
+    "model_sha256": {
+      "decoder.onnx": "9ab419f6e48b25f81e08e64479fc1caa6921a88dbba9932a901fc64ce8cf1240",
+      "encoder.onnx": "988a91ec817bc50a7857a9851a5edd80d6a4c2f594b7ba6fea615b4ebe336590"
+    },
+    "source_sha256": "21135ae91f4fc11b6806f918c91e3d302ba48374ab7fbca967adeaf0c24a618f",
+    "notice": "التشكيل آليّ وقد يتضمّن أخطاء.",
+    "reviewed": false,
+    "entries": 25,
+    "db_bytes": 376832,
+    "deflate_bytes": 87386,
+    "sha256_db": "3c6fb13e46ca670cdba80fac2f124ec05e560a84a98529904533bb0f63f9f262",
+    "sha256": "adac36fa4c7fe952950bf3aeb38b80cd84c9bafdb2a8869bf2dd5a72eed8bbd5",
+    "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_asnafmaghrurin-tashkil-v1.db.deflate"
   }
 }

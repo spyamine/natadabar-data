@@ -65,3 +65,8 @@ iOS side: `~/Developer/naTadabar-ios/naTadabar/naTadabar/{Core,Features}/Library
 - Pilot is published: 0505ghazali_munqidh-tashkil-v1.db.deflate on library-v1; catalog/tashkil.json selects it while its source SHA matches. Scripts/docs: scripts/generate_tashkil.py, scripts/publish_tashkil.py, scripts/TASHKIL.md. Source and generated text coexist; original IDs/fields stay intact.
 - Start with a small Ghazali batch, review quotation protection and generated samples, validate all original fields and file integrity, then publish versioned assets and export the catalog. Keep the automatic-generation error notice; linguistic accuracy is not established by integrity checks.
 - iOS reader integration is pushed on naTadabar-ios/feature/book-tashkil (5ed09e6); not merged into app main. Five Python tests and iOS LibraryDatabaseTests passed. See the app's .minion/TODO.md for handoff details.
+
+### 2026-11-03 — Asnaf al-Maghrurin completed
+
+- Published 0505ghazali_asnafmaghrurin-tashkil-v1: 25 entries generated; original fields/IDs unchanged; all 163 protected spans retained verbatim. Source-specific parentheses protection is in catalog/tashkil-protection/0505ghazali_asnafmaghrurin.json. Release-download checksums verified.
+- Two generated books are now available (Al-Munqidh and Asnaf al-Maghrurin); 141 downloadable books remain, including 23 Ghazali books. Wait for Amine’s next selection; no bulk generation is running.

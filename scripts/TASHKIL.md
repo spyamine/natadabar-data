@@ -42,3 +42,7 @@ python3 scripts/publish_tashkil.py 0505ghazali_munqidh dist/0505ghazali_munqidh-
 ```
 
 It uploads new assets without `--clobber`, keeps the original manifest/download unchanged, and updates the local catalog. It does not commit or push. Use a new versioned output filename for a later generation run.
+
+For **أصناف المغرورين**, also pass
+`--protected-spans catalog/tashkil-protection/0505ghazali_asnafmaghrurin.json`.
+This source uses parentheses for Quran/hadith quotations; the checked source-specific ranges preserve all 34 parenthesized passages. They refer to the exact original source revision used in the generated asset. Recheck ranges whenever the source changes.
