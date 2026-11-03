@@ -83,5 +83,22 @@
     "sha256_db": "d60fd389d51ae4fe4704e8a7aee88f143eb0aa24ad671f5efc0113f4353a11ce",
     "sha256": "ee2d45e97ada351c043fd24fbfa44c392ca327de15b1549b6bb598e6f833342a",
     "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_kimiyasacada-tashkil-v1.db.deflate"
+  },
+  "0505ghazali_jawahirquran": {
+    "model": "CATT encoder-decoder v2 ONNX",
+    "package": "1.0.2",
+    "model_sha256": {
+      "decoder.onnx": "9ab419f6e48b25f81e08e64479fc1caa6921a88dbba9932a901fc64ce8cf1240",
+      "encoder.onnx": "988a91ec817bc50a7857a9851a5edd80d6a4c2f594b7ba6fea615b4ebe336590"
+    },
+    "source_sha256": "503c4bc514db945ab147073fb79ede3cb1473c214468ee7975a821b22a7dbb4b",
+    "notice": "التشكيل آليّ وقد يتضمّن أخطاء.",
+    "reviewed": false,
+    "entries": 112,
+    "db_bytes": 1208320,
+    "deflate_bytes": 260442,
+    "sha256_db": "2c47fb4ce019753b59e4fba387778b452499b9606fa6ef07d01467b799f50cb8",
+    "sha256": "5a3140f7ac4a2bb4a9eead316ab311fea4cd34aee52968ced0811191fa155f37",
+    "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_jawahirquran-tashkil-v1.db.deflate"
   }
 }
