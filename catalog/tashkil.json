@@ -168,5 +168,22 @@
     "sha256_db": "c85dede4f34690463a7a6b241470d6ff6f17ef9848d970bc2ce47221b35550e4",
     "sha256": "180ee5d6572184b739fb0fcc171ef1c49953029f5a811033da304d5751ec199e",
     "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_sirrcalamin-tashkil-v1.db.deflate"
+  },
+  "0505ghazali_tibrmasbuk": {
+    "model": "CATT encoder-decoder v2 ONNX",
+    "package": "1.0.2",
+    "model_sha256": {
+      "decoder.onnx": "9ab419f6e48b25f81e08e64479fc1caa6921a88dbba9932a901fc64ce8cf1240",
+      "encoder.onnx": "988a91ec817bc50a7857a9851a5edd80d6a4c2f594b7ba6fea615b4ebe336590"
+    },
+    "source_sha256": "05d81e4a0433b13d80e1fb53822979722deefd02f3ccc20a4e4a89a6e01fae33",
+    "notice": "التشكيل آليّ وقد يتضمّن أخطاء.",
+    "reviewed": false,
+    "entries": 116,
+    "db_bytes": 1421312,
+    "deflate_bytes": 370623,
+    "sha256_db": "aa25c82c165fde44b8d9f07a089c6376f61d23e658041c6e86f05f4f8b30fab3",
+    "sha256": "f9cfd5d56303f868c76b540d0283ad082099d724e747306e4d0aedfd8a566e2f",
+    "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_tibrmasbuk-tashkil-v1.db.deflate"
   }
 }
