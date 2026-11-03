@@ -134,5 +134,22 @@
     "sha256_db": "8acfa8863c77a7ad47bd63ffe850bdb1c5dfd308e9180001e3fadf52f2ec5624",
     "sha256": "890d1ced10241974d916b34ade5643bc04e3ef10e5cfa4d85dc55be10d8cfc83",
     "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_raddjamil-tashkil-v1.db.deflate"
+  },
+  "0505ghazali_qawacidcaqaid": {
+    "model": "CATT encoder-decoder v2 ONNX",
+    "package": "1.0.2",
+    "model_sha256": {
+      "decoder.onnx": "9ab419f6e48b25f81e08e64479fc1caa6921a88dbba9932a901fc64ce8cf1240",
+      "encoder.onnx": "988a91ec817bc50a7857a9851a5edd80d6a4c2f594b7ba6fea615b4ebe336590"
+    },
+    "source_sha256": "6370070873a0658ca52ec7662f821ea1fd793913017cd7bf5fbda573842cd6cf",
+    "notice": "التشكيل آليّ وقد يتضمّن أخطاء.",
+    "reviewed": false,
+    "entries": 106,
+    "db_bytes": 901120,
+    "deflate_bytes": 220128,
+    "sha256_db": "c95eb2b0eefa00c1ac3e45403245b94500ddf6e25d2e422fe3b743d03702576c",
+    "sha256": "ede83fba98b3b6bf423fd9a8415048501da7df563bf87821da8af95cfcfcbdf1",
+    "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_qawacidcaqaid-tashkil-v1.db.deflate"
   }
 }
