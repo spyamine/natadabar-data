@@ -30,6 +30,22 @@ def run(*cmd, **kw):
     return subprocess.run(cmd, cwd=ROOT, check=True, text=True, capture_output=True, **kw).stdout
 
 
+def retry(action, attempts=6, delay=30):
+    """Survive transient network failures with increasing waits."""
+    for attempt in range(1, attempts+1):
+        try:
+            return action()
+        except (OSError, subprocess.CalledProcessError):
+            if attempt == attempts:
+                raise
+            time.sleep(delay*attempt)
+
+
+def download(url):
+    with urllib.request.urlopen(url, timeout=120) as response:
+        return response.read()
+
+
 def event(**data):
     STATE.mkdir(parents=True, exist_ok=True)
     data['utc'] = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
@@ -92,15 +108,14 @@ def quality_gate(output):
 def publish(book_id, output):
     run(sys.executable, 'scripts/publish_tashkil.py', book_id, str(output), '--upload')
     meta = json.loads((ROOT/'catalog/tashkil.json').read_text())[book_id]
-    with urllib.request.urlopen(meta['download_url']) as response:
-        if hashlib.sha256(response.read()).hexdigest() != meta['sha256']:
-            raise ValueError('Downloaded release asset does not match its checksum')
+    if hashlib.sha256(retry(lambda: download(meta['download_url']))).hexdigest() != meta['sha256']:
+        raise ValueError('Downloaded release asset does not match its checksum')
     protection = f'catalog/tashkil-protection/{book_id}.json'
     run('git', 'add', 'catalog/tashkil.json', 'catalog/library.json', protection)
     run('git', 'commit', '-m', f'Publish automatic tashkil for {book_id}\n\n'
         'Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>')
-    run('git', 'push', 'origin', 'main')
-    pushed = run('gh', 'api', f'repos/{REPO}/contents/catalog/tashkil.json', '-H', 'Accept: application/vnd.github.raw')
+    retry(lambda: run('git', 'push', 'origin', 'main'))
+    pushed = retry(lambda: run('gh', 'api', f'repos/{REPO}/contents/catalog/tashkil.json', '-H', 'Accept: application/vnd.github.raw'))
     if json.loads(pushed).get(book_id, {}).get('sha256') != meta['sha256']:
         raise ValueError('Pushed catalog does not select the new asset')
 
