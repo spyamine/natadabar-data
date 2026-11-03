@@ -70,3 +70,8 @@ iOS side: `~/Developer/naTadabar-ios/naTadabar/naTadabar/{Core,Features}/Library
 
 - Published 0505ghazali_asnafmaghrurin-tashkil-v1: 25 entries generated; original fields/IDs unchanged; all 163 protected spans retained verbatim. Source-specific parentheses protection is in catalog/tashkil-protection/0505ghazali_asnafmaghrurin.json. Release-download checksums verified.
 - Two generated books are now available (Al-Munqidh and Asnaf al-Maghrurin); 141 downloadable books remain, including 23 Ghazali books. Wait for Amine’s next selection; no bulk generation is running.
+
+### 2026-11-03 — Al-Maqsad al-Asna completed
+
+- Published 0505ghazali_maqsadasna-tashkil-v1: 158 entries; original fields/IDs unchanged; all 410 protected spans remain verbatim. Source-specific protection covers 56 explicit citation ranges, including plural الآيات. Downloaded release asset verified against both SHA checksums.
+- Three generated books are available; 140 downloadable books remain, including 22 Ghazali books. Next in the original list is Bidayat al-Hidaya; await Amine’s instruction. No generation job remains running.
