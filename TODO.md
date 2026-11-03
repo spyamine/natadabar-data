@@ -75,3 +75,9 @@ iOS side: `~/Developer/naTadabar-ios/naTadabar/naTadabar/{Core,Features}/Library
 
 - Published 0505ghazali_maqsadasna-tashkil-v1: 158 entries; original fields/IDs unchanged; all 410 protected spans remain verbatim. Source-specific protection covers 56 explicit citation ranges, including plural الآيات. Downloaded release asset verified against both SHA checksums.
 - Three generated books are available; 140 downloadable books remain, including 22 Ghazali books. Next in the original list is Bidayat al-Hidaya; await Amine’s instruction. No generation job remains running.
+
+### 2026-11-03 — Bidayat al-Hidaya completed
+
+- Published 0505ghazali_bidayathidaya-tashkil-v1: 77 entries; original fields/IDs unchanged; all 345 protected spans remain verbatim, including 89 explicit parenthesized passages. Downloaded release asset verified against both checksums.
+- Four generated books are available; 139 downloadable books remain, including 21 Ghazali books. Next in the original list is Jawahir al-Quran. Await clarification about all remaining Ghazali books versus one-at-a-time scope; no further batch is queued.
+- Quality follow-up: sample automatic vowel choices can still be wrong (including common terms). The automatic-generation notice and unreviewed status remain essential; benchmark/review before making linguistic accuracy claims.

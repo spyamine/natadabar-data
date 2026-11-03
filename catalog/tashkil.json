@@ -49,5 +49,22 @@
     "sha256_db": "03bc42df91f6bde67e40996d2500fd25765b4d9247f41cb1a42ff7d409dfcc07",
     "sha256": "3d8e648af05f2dd40fb47bc89b1ac2c948f236dc43b6bf36216ba256e32436d8",
     "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_maqsadasna-tashkil-v1.db.deflate"
+  },
+  "0505ghazali_bidayathidaya": {
+    "model": "CATT encoder-decoder v2 ONNX",
+    "package": "1.0.2",
+    "model_sha256": {
+      "decoder.onnx": "9ab419f6e48b25f81e08e64479fc1caa6921a88dbba9932a901fc64ce8cf1240",
+      "encoder.onnx": "988a91ec817bc50a7857a9851a5edd80d6a4c2f594b7ba6fea615b4ebe336590"
+    },
+    "source_sha256": "df7a07d3423b1ca7535aa5409122f336f909a0ce139e751de3be9c0150c405cf",
+    "notice": "التشكيل آليّ وقد يتضمّن أخطاء.",
+    "reviewed": false,
+    "entries": 77,
+    "db_bytes": 700416,
+    "deflate_bytes": 176723,
+    "sha256_db": "024243a1e50281167c808fd26014ac6869aa25d6c8e88c13003e290ef904460b",
+    "sha256": "3247378c19dc4bb681f55817b408b9ec912e841c65ea8a5e0ae0ac1cdb34979f",
+    "download_url": "https://github.com/spyamine/natadabar-data/releases/download/library-v1/0505ghazali_bidayathidaya-tashkil-v1.db.deflate"
   }
 }

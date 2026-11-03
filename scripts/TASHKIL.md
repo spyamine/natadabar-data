@@ -50,3 +50,7 @@ This source uses parentheses for Quran/hadith quotations; the checked source-spe
 For **المقصد الأسنى في شرح أسماء الله الحسنى**, pass
 `--protected-spans catalog/tashkil-protection/0505ghazali_maqsadasna.json`.
 This source has unparenthesized verse citations. The source-specific protection file conservatively covers 56 ranges ending in explicit ayah-number markers (including a plural الآيات marker), starting at a nearby quotation introducer where available. Automatic Quran n-gram protection also applies. These ranges supplement matching; neither method proves exhaustive identification of every quotation.
+
+For **بداية الهداية**, pass
+`--protected-spans catalog/tashkil-protection/0505ghazali_bidayathidaya.json`.
+The checked source uses parentheses for quotations; all 89 parenthesized passages are explicitly protected, alongside automatic Quran matching. Ranges refer to this exact source revision and must be rechecked after source updates.
