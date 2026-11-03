@@ -161,6 +161,10 @@ def main():
                 if not AR.search(chunk):
                     parts.append(chunk)
                     continue
+                local = [(a-offset, b-offset) for a, b in spans]
+                if all(any(a <= m.start() < b for a, b in local) for m in AR.finditer(chunk)):
+                    parts.append(chunk)  # Fully protected: inference could not change it.
+                    continue
                 cache_key = hashlib.sha256((json.dumps(provenance, sort_keys=True) + chunk).encode()).hexdigest()
                 predicted = cached.get(cache_key)
                 if predicted is None:
@@ -169,7 +173,7 @@ def main():
                     cache_tmp = checkpoint.with_suffix('.tmp')
                     cache_tmp.write_text(json.dumps(cached, ensure_ascii=False))
                     os.replace(cache_tmp, checkpoint)
-                parts.append(overlay(chunk, predicted, [(a-offset,b-offset) for a,b in spans]))
+                parts.append(overlay(chunk, predicted, local))
             generated = ''.join(parts)
             if bare(generated) != bare(text):
                 raise ValueError(f'Entry {entry_id} changed source')
